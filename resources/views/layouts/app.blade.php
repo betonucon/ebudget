@@ -43,6 +43,47 @@
         font-size: 12px;
         font-family: sans-serif;
     }
+    .btn-group-sm>.btn, .btn-sm {
+        padding: 2px 5px  !important;
+        font-size: .875rem  !important;
+        border-radius: 0.2rem  !important;
+    }
+    table.table-bordered.dataTable td {
+        border-left-width: 0;
+        font-size: 13px;
+        padding: 2px 10px !important;
+    }
+    .btn i {
+      vertical-align: middle  !important;
+      font-size: 1.rem  !important;
+      margin-top: 0em  !important;
+      margin-bottom: 0em  !important;
+      margin-left: 0px  !important;
+  }
+    div.dataTables_wrapper div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        width: 88% !important;
+        text-align: left;
+    }
+    div.dataTables_wrapper div.dataTables_filter input {
+        margin-left: 0.5em;
+        display: inline-block;
+        width: 86% !important;
+    }
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1055;
+        display: none;
+        width: 100%;
+        background: #11111278;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        outline: 0;
+    }
     html.semi-dark .sidebar-wrapper .sidebar-header img {
         filter: initial;
     }

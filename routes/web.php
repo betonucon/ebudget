@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsulanController; 
 use App\Http\Controllers\UnitController; 
 use App\Http\Controllers\PusatkendaliController; 
+use App\Http\Controllers\GroupController; 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,13 +34,21 @@ Route::group(['middleware' => 'keycloak-web'],function(){
         Route::get('/modal', [UnitController::class, 'modal']);
         Route::post('/save', [UnitController::class, 'save']);
     });
-    Route::group(['prefix' => 'pusatkendali'],function(){
+    Route::group(['prefix' => 'master/pusatkendali'],function(){
         Route::get('', [PusatkendaliController::class, 'index']);
         Route::get('/get_data', [PusatkendaliController::class, 'get_data']);
         Route::get('/get_nik', [PusatkendaliController::class, 'get_nik']);
         Route::get('/modal', [PusatkendaliController::class, 'modal']);
         Route::get('/delete', [PusatkendaliController::class, 'delete_data']);
         Route::post('/', [PusatkendaliController::class, 'save']);
+    });
+    Route::group(['prefix' => 'master/group'],function(){
+        Route::get('', [GroupController::class, 'index']);
+        Route::get('/get_data', [GroupController::class, 'get_data']);
+        Route::get('/get_nik', [GroupController::class, 'get_nik']);
+        Route::get('/modal', [GroupController::class, 'modal']);
+        Route::get('/delete', [GroupController::class, 'delete_data']);
+        Route::post('/', [GroupController::class, 'save']);
     });
 });
 // Route::group(['prefix' => 'test','middleware' => 'keycloak-web'],function(){

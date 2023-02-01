@@ -12,16 +12,16 @@
                         headerOffset: $('#header').height()
                     },
                     responsive: true,
-                    ajax:"{{ url('master/pusatkendali/get_data')}}",
+                    ajax:"{{ url('master/group/get_data')}}",
 					columns: [
                         { data: 'id', render: function (data, type, row, meta) 
 							{
 								return meta.row + meta.settings._iDisplayStart + 1;
 							} 
 						},
-						{ data: 'kode_pk' },
-						{ data: 'nama_pk' },
-						{ data: 'aktivitas_pk' },
+						{ data: 'kode_group' },
+						{ data: 'nama_group' },
+						{ data: 'deskripsi_group' },
 						{ data: 'action' },
 						
 					],
@@ -62,7 +62,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Pusat Kendali</li>
+								<li class="breadcrumb-item active" aria-current="page">Group</li>
 							</ol>
 						</nav>
 					</div>
@@ -83,9 +83,9 @@
 								<thead>
 									<tr role="row">
 										<th class="sorting_asc" width="5%">No</th>
-										<th class="sorting_asc" width="10%">Kode PK</th>
+										<th class="sorting_asc" width="10%">Kode Group</th>
+										<th class="sorting_asc" width="30%">Nama Group</th>
 										<th class="sorting_asc">Deskripsi</th>
-										<th class="sorting_asc" width="30%">Aktivitas </th>
 										<th class="sorting_asc" width="9%">Act</th>
 									</tr>
 								</thead>
@@ -102,7 +102,7 @@
 									<h5 class="modal-title"></h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
-								<form id="mydata" method="post" action="{{ url('master/pusatkendali') }}" enctype="multipart/form-data">
+								<form id="mydata" method="post" action="{{ url('master/group') }}" enctype="multipart/form-data">
 									@csrf
 									<!-- <input type="submit"> -->
 									<div class="modal-body">
@@ -124,7 +124,7 @@
 		function tambah(id){
 			$('#modal-tambah .modal-title').text('Tambah ');
 			$('#modal-tambah').modal('show');
-			$('#tampil-form').load("{{url('master/pusatkendali/modal')}}?id="+id);
+			$('#tampil-form').load("{{url('master/group/modal')}}?id="+id);
 		}
 
 		$('#btn-save').on('click', () => {
@@ -132,7 +132,7 @@
             var form=document.getElementById('mydata');
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('master/pusatkendali') }}",
+                    url: "{{ url('master/group') }}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,
@@ -146,7 +146,7 @@
 							$('#modal-tambah').modal('hide');
 							document.getElementById("loadnya").style.width = "0px";
                             var tables=$('#data-table-fixed-header').DataTable();
-          							tables.ajax.url("{{ url('master/pusatkendali/get_data')}}").load();
+          							tables.ajax.url("{{ url('master/group/get_data')}}").load();
                                 
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
@@ -174,14 +174,14 @@
 			   if (willDelete) {
 					   $.ajax({
 						   type: 'GET',
-						   url: "{{url('master/pusatkendali/delete')}}",
+						   url: "{{url('master/group/delete')}}",
 						   data: "id="+id,
 						   success: function(msg){
 							   swal("Success! berhasil terhapus!", {
 								   icon: "success",
 							   });
 							   var tables=$('#data-table-fixed-header').DataTable();
-          							tables.ajax.url("{{ url('master/pusatkendali/get_data')}}").load();
+          							tables.ajax.url("{{ url('master/group/get_data')}}").load();
 						   }
 					   });
 				   

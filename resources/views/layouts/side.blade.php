@@ -11,10 +11,18 @@
                 @endforeach
               </ul>
             </li>
-            <li class="@if(Request::is('pusatkendali')==1 || Request::is('pusatkendali/*')==1) mm-active @endif">
-              <a href="{{url('pusatkendali')}}" aria-expanded="true">
-                <i class="bx bx-pencil"></i>
-                <div class="menu-title">Pusat Kendali</div>
+            <li class="@if(Request::is('master/*')==1) mm-active @endif">
+              <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bi bi-house-fill"></i>
+                </div>
+                <div class="menu-title">Master</div>
               </a>
+              <ul>
+                
+                    <li> <a href="{{url('master/pusatkendali')}}"><i class="bi bi-circle"></i>Pusat Kendali</a></li>
+                    <li> <a href="{{url('master/group')}}"><i class="bi bi-circle"></i>Group</a></li>
+               
+              </ul>
             </li>
+           
           </ul>
