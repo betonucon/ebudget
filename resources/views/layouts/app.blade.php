@@ -66,6 +66,11 @@
         width: 88% !important;
         text-align: left;
     }
+    .nav-primary.nav-tabs .nav-link.active {
+        color: #484a4c;
+        border-color: #fff;
+        background: #fff;
+    }
     div.dataTables_wrapper div.dataTables_filter input {
         margin-left: 0.5em;
         display: inline-block;

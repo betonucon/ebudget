@@ -21,6 +21,7 @@
                 
                     <li> <a href="{{url('master/pusatkendali')}}"><i class="bi bi-circle"></i>Pusat Kendali</a></li>
                     <li> <a href="{{url('master/group')}}"><i class="bi bi-circle"></i>Group</a></li>
+                    <li> <a href="{{url('master/anggaran')}}"><i class="bi bi-circle"></i>Anggaran</a></li>
                
               </ul>
             </li>

@@ -7,6 +7,8 @@ use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Mpusatkendali;
+use App\Models\Manggaran;
+use App\Models\Viewanggaran;
 use App\Models\Tusulan;
 
 class AnggaranController extends Controller
@@ -15,7 +17,12 @@ class AnggaranController extends Controller
     public function index(request $request)
     {
         $template='top';
-        return view('pusat_kendali.index',compact('template'));
+        if($request->group==""){
+            $group='F';
+        }else{
+            $group=$request->group;
+        }
+        return view('anggaran.index',compact('template','group'));
     }
     public function modal(request $request)
     {
@@ -23,16 +30,18 @@ class AnggaranController extends Controller
         $template='top';
         $id=encoder($request->id);
         
-        $data=Mpusatkendali::find($id);
+        $data=Viewanggaran::find($id);
         if($id==0){
             $disabled='';
             
         }else{
-            $disabled='disabled';
+            $disabled='readonly';
             
         }
+        $kode_group=$request->kode_group;
+        $nama_group=nama_group($request->kode_group);
         // dd($kode_usulan);
-        return view('pusat_kendali.modal',compact('template','data','disabled','id'));
+        return view('anggaran.modal',compact('template','data','disabled','id','kode_group','nama_group'));
     }
 
     
@@ -40,8 +49,8 @@ class AnggaranController extends Controller
     public function get_data(request $request)
     {
         error_reporting(0);
-        $query = Mpusatkendali::query();
-        $data = $query->where('status',1)->orderBy('kode_pk','Asc')->get();
+        $query = Viewanggaran::query();
+        $data = $query->where('status',1)->where('kode_group',$request->kode_group)->orderBy('kode_form','Asc')->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
@@ -70,14 +79,16 @@ class AnggaranController extends Controller
         $rules = [];
         $messages = [];
         
+        $rules['nomor']= 'required|numeric';
+        $messages['nomor.required']= 'Lengkapi kolom nomor';
+        
+        $rules['jenis_anggaran']= 'required';
+        $messages['jenis_anggaran.required']= 'Lengkapi Jenis Anggaran';
+
         $rules['kode_pk']= 'required';
-        $messages['kode_pk.required']= 'Lengkapi kolom kode PK';
+        $messages['kode_pk.required']= 'Pilih Pusat Kendali';
         
-        $rules['aktivitas_pk']= 'required';
-        $messages['aktivitas_pk.required']= 'Lengkapi kolom aktivitas';
         
-        $rules['nama_pk']= 'required';
-        $messages['nama_pk.required']= 'Lengkapi kolom deskripsi';
        
         $validator = Validator::make($request->all(), $rules, $messages);
         $val=$validator->Errors();
@@ -94,16 +105,18 @@ class AnggaranController extends Controller
             echo'</div></div>';
         }else{
             if($request->id==0){
-                
-                $cek=Mpusatkendali::where('kode_pk',$request->kode_pk)->count();
+                $kode_form=$request->kode_group.$request->nomor;
+                $cek=Manggaran::where('kode_form',$kode_form)->count();
                 if($cek>0){
-                    echo'<div class="nitof"><b>Oops Error !</b><br><div class="isi-nitof">Kode PK sudah terdaftar</div></div>';
+                    echo'<div class="nitof"><b>Oops Error !</b><br><div class="isi-nitof">Kode Form sudah terdaftar</div></div>';
                 }else{
                 
-                    $data=Mpusatkendali::create([
+                    $data=Manggaran::create([
                         'kode_pk'=>$request->kode_pk,
-                        'nama_pk'=>$request->nama_pk,
-                        'aktivitas_pk'=>$request->aktivitas_pk,
+                        'nomor'=>$request->nomor,
+                        'kode_group'=>$request->kode_group,
+                        'kode_form'=>$kode_form,
+                        'jenis_anggaran'=>$request->jenis_anggaran,
                         'status'=>1,
                         'nik'=>auth_nik(),
                         'created_at'=>date('Y-m-d H:i:s'),
@@ -114,9 +127,9 @@ class AnggaranController extends Controller
                 }
                 
             }else{
-                $data=Mpusatkendali::where('id',$request->id)->update([
-                    'nama_pk'=>$request->nama_pk,
-                    'aktivitas_pk'=>$request->aktivitas_pk,
+                $data=Manggaran::where('id',$request->id)->update([
+                    'jenis_anggaran'=>$request->jenis_anggaran,
+                    'kode_pk'=>$request->kode_pk,
                     'update_at'=>date('Y-m-d H:i:s'),
                 ]);
 
