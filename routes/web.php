@@ -5,6 +5,7 @@ use App\Http\Controllers\UsulanController;
 use App\Http\Controllers\UnitController; 
 use App\Http\Controllers\PusatkendaliController; 
 use App\Http\Controllers\GroupController; 
+use App\Http\Controllers\AnggaranController; 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,6 +50,14 @@ Route::group(['middleware' => 'keycloak-web'],function(){
         Route::get('/modal', [GroupController::class, 'modal']);
         Route::get('/delete', [GroupController::class, 'delete_data']);
         Route::post('/', [GroupController::class, 'save']);
+    });
+    Route::group(['prefix' => 'master/anggaran'],function(){
+        Route::get('', [AnggaranController::class, 'index']);
+        Route::get('/get_data', [AnggaranController::class, 'get_data']);
+        Route::get('/get_nik', [AnggaranController::class, 'get_nik']);
+        Route::get('/modal', [AnggaranController::class, 'modal']);
+        Route::get('/delete', [AnggaranController::class, 'delete_data']);
+        Route::post('/', [AnggaranController::class, 'save']);
     });
 });
 // Route::group(['prefix' => 'test','middleware' => 'keycloak-web'],function(){
