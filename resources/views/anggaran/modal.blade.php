@@ -6,18 +6,23 @@
         <div class="row">
     
             <div class="col-4" style="padding-right: 0px;">
-                <input type="text" readonly name="kode_group" value="{{$kode_group}}" class="form-control form-control-sm mb-3">
+                <input type="text" placeholder="ketik disini" readonly name="kode_group" value="{{$kode_group}}" class="form-control form-control-sm mb-3">
             </div>
             <div class="col-8" style="padding-left: 0px;">
-                <input type="text" name="nomor" {{$disabled}} value="{{$data->nomor}}" class="form-control form-control-sm mb-3">
+                <input type="text" placeholder="ketik disini" name="nomor" {{$disabled}} value="{{$data->nomor}}" class="form-control form-control-sm mb-3">
             </div>
         </div>
         
     </div>
     
+    
     <div class="col-10">
         <label class="form-label"> Jenis Anggaran</label>
-        <input type="text" name="jenis_anggaran"  value="{{$data->jenis_anggaran}}"  class="form-control form-control-sm mb-3">  
+        <input type="text" placeholder="ketik disini" name="jenis_anggaran"  value="{{$data->jenis_anggaran}}"  class="form-control form-control-sm mb-3">  
+    </div>
+    <div class="col-8">
+        <label class="form-label"> No Rekening</label>
+        <input type="text" placeholder="ketik disini" name="no_rekening"  value="{{$data->no_rekening}}"  class="form-control form-control-sm mb-3">  
     </div>
     <div class="col-10">
         <label class="form-label">Nama Pusat Kendali </label>

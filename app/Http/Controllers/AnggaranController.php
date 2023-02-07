@@ -88,7 +88,8 @@ class AnggaranController extends Controller
         $rules['kode_pk']= 'required';
         $messages['kode_pk.required']= 'Pilih Pusat Kendali';
         
-        
+        $rules['no_rekening']= 'required|numeric';
+        $messages['no_rekening.required']= 'Lengkapi kolom no_rekening';
        
         $validator = Validator::make($request->all(), $rules, $messages);
         $val=$validator->Errors();
@@ -117,6 +118,7 @@ class AnggaranController extends Controller
                         'kode_group'=>$request->kode_group,
                         'kode_form'=>$kode_form,
                         'jenis_anggaran'=>$request->jenis_anggaran,
+                        'no_rekening'=>$request->no_rekening,
                         'status'=>1,
                         'nik'=>auth_nik(),
                         'created_at'=>date('Y-m-d H:i:s'),
@@ -130,6 +132,7 @@ class AnggaranController extends Controller
                 $data=Manggaran::where('id',$request->id)->update([
                     'jenis_anggaran'=>$request->jenis_anggaran,
                     'kode_pk'=>$request->kode_pk,
+                    'no_rekening'=>$request->no_rekening,
                     'update_at'=>date('Y-m-d H:i:s'),
                 ]);
 
