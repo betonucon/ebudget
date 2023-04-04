@@ -52,7 +52,7 @@
             <main class="page-content">
 				<!--breadcrumb-->
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Usulan</div>
+					<div class="breadcrumb-title pe-3">Usulan </div>
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
@@ -67,7 +67,7 @@
 				<!--end breadcrumb-->
 				<h6 class="mb-0 text-uppercase">&nbsp;</h6>
 				<div class="btn-group">
-					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white" onclick="tambah(0)"><i class="bi bi-plus-circle"></i> Tambah</span>
+					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white" onclick="tambah(`{{coder(0)}}`)"><i class="bi bi-plus-circle"></i> Tambah</span>
 					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white">Button</span>
 					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white">Button</span>
 				</div>
@@ -113,9 +113,7 @@
 @push('ajax')
 	<script>
 		function tambah(id){
-			$('#modal-tambah .modal-title').text('Tambah {{$data->nama_usulan}}');
-			$('#modal-tambah').modal('show');
-			$('#tampil-form').load("{{url('usulan/'.$data->id.'/modal')}}?id="+id);
+			location.assign("{{url('usulan/'.$data->id.'/view')}}?id="+id)
 		}
 
 		$('#btn-save').on('click', () => {

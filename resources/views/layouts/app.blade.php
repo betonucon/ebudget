@@ -43,6 +43,11 @@
         font-size: 12px;
         font-family: sans-serif;
     }
+    .nav-danger.nav-tabs .nav-link.active {
+      color: #76696a !important;
+      background: #f3f3ff;
+      border: #f3f3ff solid 1px !important;
+    }
     .btn-group-sm>.btn, .btn-sm {
         padding: 2px 5px  !important;
         font-size: .875rem  !important;

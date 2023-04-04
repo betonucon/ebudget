@@ -111,7 +111,14 @@ function get_cost($cost_ctr){
     $unit=$item;
     return $unit;
 }
-
+function ubah_bulan($id){
+   if($id>9){
+      $data=$id;
+   }else{
+      $data='0'.$id;
+   }
+   return $data;
+}
 function url_plug(){
     $data=url('/');
     return $data;

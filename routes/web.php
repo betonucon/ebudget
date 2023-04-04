@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsulanController; 
 use App\Http\Controllers\UnitController; 
 use App\Http\Controllers\PusatkendaliController; 
+use App\Http\Controllers\PeriodeController; 
 use App\Http\Controllers\GroupController; 
 use App\Http\Controllers\AnggaranController; 
+use App\Http\Controllers\VariableController; 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,7 +27,7 @@ Route::group(['middleware' => 'keycloak-web'],function(){
     Route::group(['prefix' => 'usulan'],function(){
         Route::get('/{id}', [UsulanController::class, 'index']);
         Route::get('/{id}/get_data', [UsulanController::class, 'get_data']);
-        Route::get('/{id}/modal', [UsulanController::class, 'modal']);
+        Route::get('/{id}/view', [UsulanController::class, 'view']);
         Route::post('/{id}/save', [UsulanController::class, 'save']);
     });
     Route::group(['prefix' => 'unit'],function(){
@@ -35,6 +37,13 @@ Route::group(['middleware' => 'keycloak-web'],function(){
         Route::get('/modal', [UnitController::class, 'modal']);
         Route::post('/save', [UnitController::class, 'save']);
     });
+    Route::group(['prefix' => 'variable'],function(){
+        Route::get('', [VariableController::class, 'index']);
+        Route::get('/get_data', [VariableController::class, 'get_data']);
+        Route::get('/get_nik', [VariableController::class, 'get_nik']);
+        Route::get('/modal', [VariableController::class, 'modal']);
+        Route::post('/save', [VariableController::class, 'save']);
+    });
     Route::group(['prefix' => 'master/pusatkendali'],function(){
         Route::get('', [PusatkendaliController::class, 'index']);
         Route::get('/get_data', [PusatkendaliController::class, 'get_data']);
@@ -42,6 +51,16 @@ Route::group(['middleware' => 'keycloak-web'],function(){
         Route::get('/modal', [PusatkendaliController::class, 'modal']);
         Route::get('/delete', [PusatkendaliController::class, 'delete_data']);
         Route::post('/', [PusatkendaliController::class, 'save']);
+    });
+    Route::group(['prefix' => 'master/periode'],function(){
+        Route::get('', [PeriodeController::class, 'index']);
+        Route::get('/get_data', [PeriodeController::class, 'get_data']);
+        Route::get('/proses_active', [PeriodeController::class, 'proses_active']);
+        Route::get('/proses_inactive', [PeriodeController::class, 'proses_inactive']);
+        Route::get('/get_nik', [PeriodeController::class, 'get_nik']);
+        Route::get('/modal', [PeriodeController::class, 'modal']);
+        Route::get('/delete', [PeriodeController::class, 'delete_data']);
+        Route::post('/', [PeriodeController::class, 'save']);
     });
     Route::group(['prefix' => 'master/group'],function(){
         Route::get('', [GroupController::class, 'index']);

@@ -8,6 +8,14 @@
       $data=App\Models\Mgroup::orderBy('kode_group','Asc')->get();
       return $data;
    }
+   function get_tujuan(){
+      $data=App\Models\Mtujuan::orderBy('id','Asc')->get();
+      return $data;
+   }
+   function get_anggaran($kode_group){
+      $data=App\Models\Manggaran::where('kode_group',$kode_group)->orderBy('id','Asc')->get();
+      return $data;
+   }
    function get_pusat_kendali(){
       $data=App\Models\Mpusatkendali::orderBy('kode_pk','Asc')->get();
       return $data;

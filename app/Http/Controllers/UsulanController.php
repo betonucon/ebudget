@@ -16,15 +16,19 @@ class UsulanController extends Controller
     {
         $template='top';
         $data=Musulan::where('id',$id)->first();
-        return view('usulan.index',compact('template','data'));
+        $ide=$id;
+       
+        return view('usulan.index',compact('template','data','ide'));
     }
-    public function modal(request $request,$id)
+    public function view(request $request,$id)
     {
         error_reporting(0);
         $template='top';
-        $data=Tusulan::find($request->id);
-        $ide=$id;
-        $idkey=$request->id;
+       
+        $usulan_id=$id;
+        $ide=encoder($request->id);
+        $mst=Musulan::find($id);
+        $data=Tusulan::find($ide);
         if($request->id==0){
             $disabled='';
             $kode_usulan=penomoran($id);
@@ -33,7 +37,7 @@ class UsulanController extends Controller
             $kode_usulan=$data->kode_usulan;
         }
         // dd($kode_usulan);
-        return view('usulan.modal',compact('template','data','disabled','idkey','ide','kode_usulan'));
+        return view('usulan.view',compact('template','data','disabled','idkey','usulan_id','kode_usulan','mst','ide'));
     }
     public function get_data(request $request,$id)
     {
