@@ -31,10 +31,10 @@ class UsulanController extends Controller
         $data=Tusulan::find($ide);
         if($request->id==0){
             $disabled='';
-            $kode_usulan=penomoran($id);
+          
         }else{
             $disabled='disabled';
-            $kode_usulan=$data->kode_usulan;
+          
         }
         if(in_array($usulan_id,array(1,2))){
             return view('usulan.view',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
