@@ -36,8 +36,15 @@ class UsulanController extends Controller
             $disabled='disabled';
             $kode_usulan=$data->kode_usulan;
         }
-        // dd($kode_usulan);
-        return view('usulan.view',compact('template','data','disabled','idkey','usulan_id','kode_usulan','mst','ide'));
+        if(in_array($usulan_id,array(1,2))){
+            return view('usulan.view',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+        }
+        elseif(in_array($usulan_id,array(5,6))){
+            return view('usulan.view_2',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+        }else{
+            return view('usulan.view_3',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+        }
+        
     }
     public function get_data(request $request,$id)
     {
@@ -65,13 +72,41 @@ class UsulanController extends Controller
     }
 
    
-    public function save(request $request){
+    public function save(request $request,$usulan_id){
         error_reporting(0);
         $rules = [];
         $messages = [];
+        if(in_array($usulan_id,array(1,2))){
         
-        $rules['Usulan']= 'required';
-        $messages['Usulan.required']= 'Lengkapi kolom Usulan';
+                $rules['kode_form']= 'required';
+                $messages['kode_form.required']= 'Lengkapi kolom id form';
+                
+                $rules['nama_barang']= 'required';
+                $messages['nama_barang.required']= 'Lengkapi kolom Nama Barang';
+                
+                $rules['qty']= 'required';
+                $messages['qty.required']= 'Lengkapi kolom Qty ada';
+                
+                $rules['qty_order']= 'required';
+                $messages['qty_order.required']= 'Lengkapi kolom Qty Beli';
+                
+                $rules['spesifikasi']= 'required';
+                $messages['spesifikasi.required']= 'Lengkapi kolom spesifikasi';
+                
+                $rules['harga']= 'required';
+                $messages['harga.required']= 'Lengkapi kolom harga';
+                
+                $rules['m_matauang_id']= 'required';
+                $messages['m_matauang_id.required']= 'Lengkapi kolom mata uang';
+                
+                $rules['tujuan_id']= 'required';
+                $messages['tujuan_id.required']= 'Lengkapi kolom tujun=an';
+
+                $data=Usulan::create([
+                    'Usulan'=>$request->Usulan,
+                    'aktif'=>1,
+                ]);
+        }
        
         $validator = Validator::make($request->all(), $rules, $messages);
         $val=$validator->Errors();
@@ -88,13 +123,30 @@ class UsulanController extends Controller
             echo'</div></div>';
         }else{
             if($request->id==0){
-                
-                $data=Usulan::create([
-                    'Usulan'=>$request->Usulan,
-                    'aktif'=>1,
-                ]);
+                $mst=Musulan::where('id',$usulan_id)->first();
+                $no_dokumen=no_dokumen($mst->kode);
+                if(in_array($usulan_id,array(1,2))){
+                    $data=Usulan::create([
+                        'no_dokumen'=>$no_dokumen,
+                        'kode_group'=>$mst->kode,
+                        'kode_form'=>$request->kode_form,
+                        'nama_barang'=>$request->nama_barang,
+                        'qty'=>$request->qty,
+                        'qty_order'=>$request->qty_order,
+                        'spesifikasi'=>$request->spesifikasi,
+                        'harga'=>$request->harga,
+                        'm_matauang_id'=>$request->m_matauang_id,
+                        'tujuan_id'=>$request->tujuan_id,
+                        'harga'=>$request->harga,
+                        'tahun'=>date('Y'),
+                        'bulan'=>date('m'),
+                        'aktif'=>1,
+                    ]);
 
-                echo'@ok';
+                    echo'@ok';
+                }else{
+
+                }
                 
             }else{
                 $data=Usulan::where('id',$request->id)->update([

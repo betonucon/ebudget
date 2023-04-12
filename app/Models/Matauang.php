@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Matauang extends Model
+{
+    protected $table = 'm_matauang';
+    public $timestamps = false;
+    protected $guarded = ['id'];
+    
+    // function memploye(){
+    //     return $this->belongsTo('App\Models\Employe','nik','nik');
+    // }
+    
+}

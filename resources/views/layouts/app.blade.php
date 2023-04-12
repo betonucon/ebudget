@@ -43,6 +43,14 @@
         font-size: 12px;
         font-family: sans-serif;
     }
+    .col-form-label {
+        padding-top: calc(0.375rem + 1px);
+        padding-bottom: calc(0.375rem + 1px);
+        margin-bottom: 0;
+        text-align: right;
+        font-size: inherit;
+        line-height: 1.5;
+    }
     .nav-danger.nav-tabs .nav-link.active {
       color: #76696a !important;
       background: #f3f3ff;

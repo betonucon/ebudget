@@ -72,70 +72,65 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-8">
-											<label class="form-label">Nama Barang</label>
-											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control"  name="nama_barang"  value="{{$data->nama_barang}}" placeholder="Enter......">
-											</div>
-										</div>
-										<div class="col-2">
-											<label class="form-label">Qty Ada</label>
-											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="qty"  value="{{$data->qty}}"  placeholder="Enter......">
-											</div>
-										</div>
-										<div class="col-2">
-											<label class="form-label">Qty Beli</label>
-											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="qty_order"  value="{{$data->qty_order}}"  placeholder="Enter......">
-											</div>
-										</div>
 										<div class="col-12">
-											<label class="form-label">Spesifikasi</label>
+											<label class="form-label">Aktifitas</label>
 											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control"  name="spesifikasi"  value="{{$data->spesifikasi}}"  placeholder="Enter......">
+												<input type="text" class="form-control"  name="aktifitas"  value="{{$data->aktifitas}}" placeholder="Enter......">
 											</div>
 										</div>
+										
 									</div>
 									<div class="row">
+										
 										<div class="col-4">
-											<label class="form-label">Harga</label>
+											<label class="form-label">Periode Nilai</label>
 											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="harga"  value="{{$data->nama_barang}}" placeholder="Enter......">
-											</div>
-										</div>
-										<div class="col-4">
-											<label class="form-label">Mata Uang</label>
-											<div class="input-group input-group-sm"> 
-												<select name="m_matauang_id"     class="form-control form-control-sm mb-3">  
+												<select name="periode_nilai"  onchange="pilih_periode(this.value)"   class="form-control form-control-sm mb-3">  
 													<option value="">Pilih-----</option>
-													@foreach(get_matauang() as $pus)
-														<option value="{{$pus->id}}" @if($data->m_matauang_id==$pus->id) selected @endif >{{$pus->tujuan}}</option>
-													@endforeach
-												</select>
-												
-											</div>
-										</div>
-										<div class="col-4">
-											<label class="form-label">Tujuan</label>
-											<div class="input-group input-group-sm"> 
-												<select name="tujuan_id"     class="form-control form-control-sm mb-3">  
-													<option value="">Pilih-----</option>
-													@foreach(get_tujuan() as $pus)
-														<option value="{{$pus->id}}" @if($data->tujuan_id==$pus->id) selected @endif >{{$pus->tujuan}}</option>
-													@endforeach
+													<option value="1">Nilai Perbulan</option>
+													<option value="2">Nilai Pertahun</option>
+													
 												</select>
 											</div>
 										</div>
 									</div>
-									<div class="card-body">
+									<div class="card-body" style="border: dotted #f5dfdf 2px;">
 							
-										<div class="row">
-											@for($x=1;$x<13;$x++)
-											<div class="col-3" style="background:#ededc1;margin: 3px;">
-												<input type="checkbox" name="bulan[]" value="">&nbsp;{{bulan(ubah_bulan($x))}}
+										<div class="row" id="tampil-bulanan">
+											<div class="col-6">
+												@for($x=1;$x<7;$x++)
+													<div class="row mb-2">
+														<label for="inputEnterYourName" class="col-sm-4 col-form-label">{{bulan(ubah_bulan($x))}}  <input type="checkbox" name="bulan[]" value=""></label>
+														<div class="col-sm-4">
+															<div class="input-group input-group-sm"> 
+																<input type="number" class="form-control" name="bulan[]" value="" placeholder="Enter......">
+															</div>
+														</div>
+													</div>
+												@endfor
 											</div>
-											@endfor
+											<div class="col-6">
+												@for($x=7;$x<13;$x++)
+													<div class="row mb-2">
+														<label for="inputEnterYourName" class="col-sm-4 col-form-label">{{bulan(ubah_bulan($x))}} <input type="checkbox" name="bulan[]" value=""></label>
+														<div class="col-sm-4">
+															<div class="input-group input-group-sm"> 
+																<input type="number" class="form-control" name="bulan[]" value="" placeholder="Enter......">
+															</div>
+														</div>
+													</div>
+												@endfor
+											</div>
+										</div>
+										<div class="row" id="tampil-tahunan">
+											<div class="row mb-2">
+												<label for="inputEnterYourName" class="col-sm-2 col-form-label">Nilai Pertahun</label>
+												<div class="col-sm-4">
+													<div class="input-group input-group-sm"> 
+														<input type="number" class="form-control" name="nilai_pertahun" value="" placeholder="Enter......">
+													</div>
+												</div>
+											</div>
 										</div>
 										
 							
@@ -205,14 +200,19 @@
 @endsection
 @push('ajax')
 	<script>
-		
+		$('#tampil-tahunan').hide();
+		$('#tampil-bulanan').hide();
 		function show_form(){
 			$('#modal-form').modal('show');
 		}
-		function pilih(kode_form,jenis_anggaran){
-			$('#modal-form').modal('hide');
-			$('#kode_form').val(kode_form);
-			$('#jenis_anggaran').val(jenis_anggaran);
+		function pilih_periode(id){
+			if(id==1){
+				$('#tampil-bulanan').show();
+				$('#tampil-tahunan').hide();
+			}else{
+				$('#tampil-tahunan').show();
+				$('#tampil-bulanan').hide();
+			}
 		}
 
 		$('#btn-save').on('click', () => {

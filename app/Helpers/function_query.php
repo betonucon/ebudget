@@ -12,6 +12,10 @@
       $data=App\Models\Mtujuan::orderBy('id','Asc')->get();
       return $data;
    }
+   function get_matauang(){
+      $data=App\Models\Matauang::orderBy('id','Asc')->get();
+      return $data;
+   }
    function get_anggaran($kode_group){
       $data=App\Models\Manggaran::where('kode_group',$kode_group)->orderBy('id','Asc')->get();
       return $data;
@@ -54,4 +58,17 @@
       }
       return $nomor;
   }
+
+  function no_dokumen($kode_group){
+      $cek=App\Models\Tusulan::where('kode_group',$kode_group)->where('tahun',date('Y'))->where('bulan',date('m'))->count();
+      if($cek>0){
+         $mst=App\Models\Tusulan::where('kode_group',$kode_group)->where('tahun',date('Y'))->where('bulan',date('m'))->orderBy('no_dokumen','Desc')->firstOrfail();
+         $urutan = (int) substr($mst['kode_usulan'], 6, 2);
+         $urutan++;
+         $nomor=date('Ym').sprintf("%02s",  $urutan);
+      }else{
+         $nomor=date('Ym').sprintf("%02s", 1);
+      }
+      return $nomor;
+   }
 ?>
