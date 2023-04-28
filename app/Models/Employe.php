@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Musulan extends Model
+class Employe extends Model
 {
-    protected $table = 'm_group';
+    protected $table = 'employe';
     public $timestamps = false;
     protected $guarded = ['id'];
     

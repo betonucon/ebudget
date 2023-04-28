@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Musulan extends Model
+class Viewstatus extends Model
 {
-    protected $table = 'm_group';
+    protected $table = 'view_status';
     public $timestamps = false;
     protected $guarded = ['id'];
     

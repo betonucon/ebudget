@@ -12,13 +12,19 @@
                         headerOffset: $('#header').height()
                     },
                     responsive: true,
-                    ajax:"{{ url('usulan/'.$data->id.'/get_data')}}",
+                    ajax:"{{ url('usulan/'.$ide.'/get_data')}}",
 					columns: [
                         { data: 'id', render: function (data, type, row, meta) 
 							{
 								return meta.row + meta.settings._iDisplayStart + 1;
 							} 
 						},
+						{ data: 'nodok' },
+						{ data: 'keterangan_informasi' },
+						{ data: 'tahun', className: "text-center" },
+						{ data: 'total_harga', className: "text-right" },
+						{ data: 'status', className: "text-center" },
+						{ data: 'action', className: "text-center" },
 						
 					],
 					language: {
@@ -58,7 +64,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">{{$data->nama_usulan}}</li>
+								<li class="breadcrumb-item active" aria-current="page">{{$data->nama_group}}</li>
 							</ol>
 						</nav>
 					</div>
@@ -67,9 +73,7 @@
 				<!--end breadcrumb-->
 				<h6 class="mb-0 text-uppercase">&nbsp;</h6>
 				<div class="btn-group">
-					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white" onclick="tambah(`{{coder(0)}}`)"><i class="bi bi-plus-circle"></i> Tambah</span>
-					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white">Button</span>
-					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white">Button</span>
+					<span style="border-color: #fff;" class="btn btn-secondary  text-white" onclick="tambah(`{{coder(0)}}`)"><i class="bi bi-plus-circle"></i> Tambah {{$data->nama_group}}</span>
 				</div>
 				<div class="card">
 					<div class="card-body">
@@ -78,7 +82,13 @@
 							<table id="data-table-fixed-header" class="table table-striped table-bordered dataTable" style="width: 100%;" role="grid" aria-describedby="example_info">
 								<thead>
 									<tr role="row">
-										<th class="sorting_asc">Name</th>
+										<th class="sorting_asc" width="5%">No</th>
+										<th class="sorting_asc" width="10%">No Dokumen</th>
+										<th class="sorting_asc">Keterangan</th>
+										<th class="sorting_asc" width="7%">Tahun</th>
+										<th class="sorting_asc" width="12%">Total</th>
+										<th class="sorting_asc" width="12%">Status</th>
+										<th class="sorting_asc" width="5%">Action</th>
 									</tr>
 								</thead>
 								
@@ -115,7 +125,7 @@
 		function tambah(id){
 			location.assign("{{url('usulan/'.$data->id.'/view')}}?id="+id)
 		}
-
+		
 		$('#btn-save').on('click', () => {
             
             var form=document.getElementById('mydata');
@@ -133,10 +143,7 @@
                         var bat=msg.split('@');
                         if(bat[1]=='ok'){
                             
-                               location.reload();
-                                    
-                           
-                                
+                            location.reload();
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
                             $('#notifikasi').html(msg);

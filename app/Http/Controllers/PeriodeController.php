@@ -7,6 +7,7 @@ use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Mpusatkendali;
+use App\Models\Viewstatus;
 use App\Models\Mperiode;
 
 class PeriodeController extends Controller
@@ -40,7 +41,7 @@ class PeriodeController extends Controller
     public function get_data(request $request)
     {
         error_reporting(0);
-        $query = Mperiode::query();
+        $query = Viewstatus::query();
         $data = $query->orderBy('id','Asc')->get();
 
         return Datatables::of($data)
@@ -103,6 +104,12 @@ class PeriodeController extends Controller
 
         $rules['end_date']= 'required|date';
         $messages['end_date.required']= 'Lengkapi kolom end date';
+
+        $rules['status_id']= 'required';
+        $messages['status_id.required']= 'Lengkapi kolom status periode';
+        
+        $rules['tahun']= 'required';
+        $messages['tahun.required']= 'Lengkapi kolom tahuh periode';
         
        
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -127,6 +134,8 @@ class PeriodeController extends Controller
                     $data=Mperiode::create([
                         'start_date'=>$request->start_date,
                         'end_date'=>$request->end_date,
+                        'status_id'=>$request->status_id,
+                        'tahun'=>$request->tahun,
                         'active'=>0,
                         
                     ]);
@@ -137,6 +146,8 @@ class PeriodeController extends Controller
                     $data=Mperiode::create([
                         'start_date'=>$request->start_date,
                         'end_date'=>$request->end_date,
+                        'status_id'=>$request->status_id,
+                        'tahun'=>$request->tahun,
                         'active'=>1,
                         
                     ]);
@@ -146,7 +157,9 @@ class PeriodeController extends Controller
             }else{
                 $data=Mperiode::where('id',$request->id)->update([
                     'start_date'=>$request->start_date,
+                    'status_id'=>$request->status_id,
                     'end_date'=>$request->end_date,
+                    'tahun'=>$request->tahun,
                 ]);
 
                 echo'@ok';

@@ -10,7 +10,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">{{$mst->nama_usulan}}</li>
+								<li class="breadcrumb-item active" aria-current="page">{{$mst->nama_group}}</li>
 							</ol>
 						</nav>
 					</div>
@@ -18,8 +18,9 @@
 				</div>
 				<!--end breadcrumb-->
 				<h6 class="mb-0 text-uppercase">&nbsp;</h6>
-				<form id="mydata" >
+				<form id="mydata" action="{{ url('usulan/'.$usulan_id.'/save') }}" method="post"  enctype="multipart/form-data">
 					@csrf
+					<input type="hidden" name="id" value="{{$ide}}">
 					<div class="card">
 						<div class="card-body">
 							<ul class="nav nav-tabs nav-danger" role="tablist">
@@ -110,7 +111,7 @@
 												<select name="m_matauang_id"     class="form-control form-control-sm mb-3">  
 													<option value="">Pilih-----</option>
 													@foreach(get_matauang() as $pus)
-														<option value="{{$pus->id}}" @if($data->m_matauang_id==$pus->id) selected @endif >{{$pus->tujuan}}</option>
+														<option value="{{$pus->id}}" @if($data->m_matauang_id==$pus->id) selected @endif >{{$pus->mata_uang}}</option>
 													@endforeach
 												</select>
 												
@@ -132,8 +133,8 @@
 							
 										<div class="row">
 											@for($x=1;$x<13;$x++)
-											<div class="col-3" style="background:#ededc1;margin: 3px;">
-												<input type="checkbox" name="bulan[]" value="">&nbsp;{{bulan(ubah_bulan($x))}}
+											<div class="col-3" style="background:#f1f1e2;margin: 3px;">
+												<input type="checkbox" name="bulan[]" value="{{ubah_bulan($x)}}">&nbsp;{{bulan(ubah_bulan($x))}}
 											</div>
 											@endfor
 										</div>
@@ -179,7 +180,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											@foreach(get_anggaran($mst->kode) as $no=>$o)
+											@foreach(get_anggaran($mst->kode_group) as $no=>$o)
 											<tr>
 												<th scope="row">{{$no+1}}</th>
 												<td>{{$o->kode_form}}</td>
@@ -231,11 +232,11 @@
                     success: function(msg){
                         var bat=msg.split('@');
                         if(bat[1]=='ok'){
-                            
-                               location.reload();
-                                    
-                           
-                                
+							swal({
+                              title: "Success! berhasil simpan!",
+                              icon: "success",
+                            });
+                            location.assign("{{url('usulan')}}/{{ $usulan_id}}");
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
                             $('#notifikasi').html(msg);

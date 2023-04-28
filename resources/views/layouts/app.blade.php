@@ -610,7 +610,7 @@
         
         <div class="modal fade" id="modal-notifikasi" tabindex="-1" aria-hidden="true" style="background: #17171885;">
           <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-danger">
+            <div class="modal-content bg-info">
               <div class="modal-header">
                 <h5 class="modal-title text-white">Notifikasi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

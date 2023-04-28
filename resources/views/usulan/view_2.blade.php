@@ -10,7 +10,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">{{$mst->nama_usulan}}</li>
+								<li class="breadcrumb-item active" aria-current="page">{{$mst->nama_group}}</li>
 							</ol>
 						</nav>
 					</div>
@@ -20,6 +20,7 @@
 				<h6 class="mb-0 text-uppercase">&nbsp;</h6>
 				<form id="mydata" >
 					@csrf
+					<input type="hidden" name="id" value="{{$ide}}">
 					<div class="card">
 						<div class="card-body">
 							<ul class="nav nav-tabs nav-danger" role="tablist">
@@ -72,45 +73,29 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-8">
-											<label class="form-label">Nama Barang</label>
+										<div class="col-9">
+											<label class="form-label">Deskripsi Pekerjaan</label>
 											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control"  name="nama_barang"  value="{{$data->nama_barang}}" placeholder="Enter......">
+												<input type="text" class="form-control"  name="pekerjaan"  value="{{$data->pekerjaan}}"  placeholder="Enter......">
 											</div>
 										</div>
-										<div class="col-2">
-											<label class="form-label">Qty Ada</label>
+										<div class="col-3">
+											<label class="form-label">Nilai Pekerjaan</label>
 											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="qty"  value="{{$data->qty}}"  placeholder="Enter......">
+												<input type="number" class="form-control"  name="nilai_pekerjaan"  value="{{$data->nilai_pekerjaan}}"  placeholder="Enter......">
 											</div>
 										</div>
-										<div class="col-2">
-											<label class="form-label">Qty Beli</label>
-											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="qty_order"  value="{{$data->qty_order}}"  placeholder="Enter......">
-											</div>
-										</div>
-										<div class="col-12">
-											<label class="form-label">Spesifikasi</label>
-											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control"  name="spesifikasi"  value="{{$data->spesifikasi}}"  placeholder="Enter......">
-											</div>
-										</div>
+										
+										
 									</div>
 									<div class="row">
-										<div class="col-4">
-											<label class="form-label">Harga</label>
-											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="harga"  value="{{$data->nama_barang}}" placeholder="Enter......">
-											</div>
-										</div>
 										<div class="col-4">
 											<label class="form-label">Mata Uang</label>
 											<div class="input-group input-group-sm"> 
 												<select name="m_matauang_id"     class="form-control form-control-sm mb-3">  
 													<option value="">Pilih-----</option>
 													@foreach(get_matauang() as $pus)
-														<option value="{{$pus->id}}" @if($data->m_matauang_id==$pus->id) selected @endif >{{$pus->tujuan}}</option>
+														<option value="{{$pus->id}}" @if($data->m_matauang_id==$pus->id) selected @endif >{{$pus->mata_uang}}</option>
 													@endforeach
 												</select>
 												
@@ -179,7 +164,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											@foreach(get_anggaran($mst->kode) as $no=>$o)
+											@foreach(get_anggaran($mst->kode_group) as $no=>$o)
 											<tr>
 												<th scope="row">{{$no+1}}</th>
 												<td>{{$o->kode_form}}</td>

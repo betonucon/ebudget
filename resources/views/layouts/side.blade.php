@@ -7,7 +7,7 @@
               </a>
               <ul>
                 @foreach(get_usulan() as $usl)
-                    <li> <a href="{{url('usulan/'.$usl->id)}}"><i class="bi bi-circle"></i>{{$usl->nama_usulan}}</a></li>
+                    <li> <a href="{{url('usulan/'.$usl->id)}}"><i class="bi bi-circle"></i>{{$usl->nama_group}}</a></li>
                 @endforeach
               </ul>
             </li>

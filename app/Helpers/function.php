@@ -111,6 +111,13 @@ function get_cost($cost_ctr){
     $unit=$item;
     return $unit;
 }
+function singkatan_unit($name){
+   $sing=array('/Department/','/Division/','/Dinas/');
+   $song=array('', '');
+   $nm=preg_replace($sing,$song,$name);
+   $data=preg_replace('/[^A-Z&]/', '',$nm);
+   return $data;
+}
 function ubah_bulan($id){
    if($id>9){
       $data=$id;

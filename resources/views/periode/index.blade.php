@@ -19,6 +19,9 @@
 								return meta.row + meta.settings._iDisplayStart + 1;
 							} 
 						},
+						{ data: 'status' },
+						{ data: 'role' },
+						{ data: 'tahun' },
 						{ data: 'start_date' },
 						{ data: 'end_date' },
 						{ data: 'act' },
@@ -83,9 +86,13 @@
 								<thead>
 									<tr role="row">
 										<th class="sorting_asc" width="5%">No</th>
-										<th class="sorting_asc" width="30%">Start Date</th>
-										<th class="sorting_asc" width="30%">End Date</th>
-										<th class="sorting_asc" width="20%">Status</th>
+										
+										<th class="sorting_asc">Status Periode</th>
+										<th class="sorting_asc" width="25%">Otorisasi</th>
+										<th class="sorting_asc" width="8%">Tahun</th>
+										<th class="sorting_asc" width="15%">Start Date</th>
+										<th class="sorting_asc" width="15%">End Date</th>
+										<th class="sorting_asc" width="9%"></th>
 										<th class="sorting_asc" width="9%">Act</th>
 									</tr>
 								</thead>

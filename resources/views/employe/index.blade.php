@@ -58,7 +58,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">{{$data->nama_usulan}}</li>
+								<li class="breadcrumb-item active" aria-current="page">{{$data->nama_group}}</li>
 							</ol>
 						</nav>
 					</div>
@@ -113,7 +113,7 @@
 @push('ajax')
 	<script>
 		function tambah(id){
-			$('#modal-tambah .modal-title').text('Tambah {{$data->nama_usulan}}');
+			$('#modal-tambah .modal-title').text('Tambah {{$data->nama_group}}');
 			$('#modal-tambah').modal('show');
 			$('#tampil-form').load("{{url('usulan/'.$data->id.'/modal')}}?id="+id);
 		}
