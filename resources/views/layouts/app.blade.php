@@ -6,7 +6,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="{{url_plug()}}/assets/images/favicon-32x32.png" type="image/png" />
+  <link rel="icon" href="{{url_plug()}}/img/fav.png" type="image/png" />
   <!--plugins-->
   <link href="{{url_plug()}}/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
   <link href="{{url_plug()}}/assets/plugins/input-tags/css/tagsinput.css" rel="stylesheet" />
@@ -36,7 +36,7 @@
   <link href="{{url_plug()}}/picker/css/bootstrap-datepicker.css" rel="stylesheet" />
   <link href="{{url_plug()}}/picker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 
-  <title>Onedash - Bootstrap 5 Admin Template</title>
+  <title>E-Budget | Krakatau Steel</title>
   <style>
     table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
         text-align: left;

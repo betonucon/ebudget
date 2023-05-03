@@ -1,4 +1,11 @@
           <ul class="metismenu" id="menu">
+            <li class="@if(Request::is('home')==1 || Request::is('/')==1) mm-active @endif">
+              <a href="{{url('/')}}" aria-expanded="true">
+                <div class="parent-icon"><i class="bi bi-house-fill"></i>
+                </div>
+                <div class="menu-title">Home</div>
+              </a>
+            </li>
             <li class="@if(Request::is('usulan/*')==1) mm-active @endif">
               <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="fadeIn animated bx bx-file"></i>
