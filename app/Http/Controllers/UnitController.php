@@ -7,7 +7,10 @@ use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Munit;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Tusulan;
+use App\Models\Vunit;
+use App\Models\Employe;
 
 class UnitController extends Controller
 {
@@ -53,7 +56,7 @@ class UnitController extends Controller
     public function get_data(request $request)
     {
         error_reporting(0);
-        $data = Munit::orderBy('nama_unit','Asc')->get();
+        $data = Vunit::orderBy('nama_unit','Asc')->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
@@ -121,7 +124,22 @@ class UnitController extends Controller
                     'singkatan'=>$request->singkatan,
                     'nik'=>$request->nik,
                 ]);
-
+                $emp=Employe::updateOrCreate(
+                    [   
+                        'nik'=>$request->nik,
+                        
+                    ],[
+                        'role_id'=>2,
+                        'role_utama'=>2,
+                        'password'=>Hash::make('admin'),
+                        
+                        'update'=>date('Y-m-d H:i:s'),
+                        'posisi'=>posisi($request->nik)['org_unit_name'],
+                        'name'=>Auth::user()->name,
+                        'kode_unit'=>kode_unit(posisi($request->nik)['org_unit_name']),
+                        'cost_ctr'=>posisi($request->nik)['cost_ctr'],
+                    ]
+                );
                 echo'@ok';
                 
             }else{
@@ -133,7 +151,22 @@ class UnitController extends Controller
                     'unit_id'=>$request->unit_id,
                     'singkatan'=>$request->singkatan,
                 ]);
-
+                $emp=Employe::updateOrCreate(
+                    [   
+                        'nik'=>$request->nik,
+                        
+                    ],[
+                        'role_id'=>2,
+                        'role_utama'=>2,
+                        'password'=>Hash::make('admin'),
+                        
+                        'update'=>date('Y-m-d H:i:s'),
+                        'posisi'=>posisi($request->nik)['org_unit_name'],
+                        'name'=>Auth::user()->name,
+                        'kode_unit'=>kode_unit(posisi($request->nik)['org_unit_name']),
+                        'cost_ctr'=>posisi($request->nik)['cost_ctr'],
+                    ]
+                );
                 echo'@ok';
             }
         }

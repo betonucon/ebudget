@@ -192,54 +192,13 @@
                      <div class="d-flex align-items-center">
                         <img src="{{url_plug()}}/assets/images/avatars/avatar-1.png" alt="" class="rounded-circle" width="54" height="54">
                         <div class="ms-3">
-                          <h6 class="mb-0 dropdown-user-name">Jhon Deo</h6>
-                          <small class="mb-0 dropdown-user-designation text-secondary">HR Manager</small>
+                          <h6 class="mb-0 dropdown-user-name">{{substr(get_name(Auth::user()->employeeNumber),0,20)}}</h6>
+                          <small class="mb-0 dropdown-user-designation text-secondary">{{role()}}</small>
                         </div>
                      </div>
                    </a>
                  </li>
                  <li><hr class="dropdown-divider"></li>
-                 <li>
-                    <a class="dropdown-item" href="pages-user-profile.html">
-                       <div class="d-flex align-items-center">
-                         <div class=""><i class="bi bi-person-fill"></i></div>
-                         <div class="ms-3"><span>Profile</span></div>
-                       </div>
-                     </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                       <div class="d-flex align-items-center">
-                         <div class=""><i class="bi bi-gear-fill"></i></div>
-                         <div class="ms-3"><span>Setting</span></div>
-                       </div>
-                     </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="index2.html">
-                       <div class="d-flex align-items-center">
-                         <div class=""><i class="bi bi-speedometer"></i></div>
-                         <div class="ms-3"><span>Dashboard</span></div>
-                       </div>
-                     </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                       <div class="d-flex align-items-center">
-                         <div class=""><i class="bi bi-piggy-bank-fill"></i></div>
-                         <div class="ms-3"><span>Earnings</span></div>
-                       </div>
-                     </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                       <div class="d-flex align-items-center">
-                         <div class=""><i class="bi bi-cloud-arrow-down-fill"></i></div>
-                         <div class="ms-3"><span>Downloads</span></div>
-                       </div>
-                     </a>
-                  </li>
-                  <li><hr class="dropdown-divider"></li>
                   <li>
                     <a class="dropdown-item" href="{{ route('keycloak.logout') }}">
                        <div class="d-flex align-items-center">
@@ -250,7 +209,7 @@
                   </li>
               </ul>
             </li>
-            <li class="nav-item dropdown dropdown-large">
+            <!-- <li class="nav-item dropdown dropdown-large">
               <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
                 <div class="projects">
                   <i class="bi bi-grid-3x3-gap-fill"></i>
@@ -348,7 +307,7 @@
                       </div>
                     </a>
                   </div>
-                 </div><!--end row-->
+                 </div>
               </div>
             </li>
             <li class="nav-item dropdown dropdown-large">
@@ -572,7 +531,7 @@
                    </a>
                </div>
               </div>
-            </li>
+            </li> -->
             </ul>
             </div>
       </nav>

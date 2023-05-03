@@ -6,11 +6,12 @@
                 <div class="menu-title">Home</div>
               </a>
             </li>
+            
             <li class="@if(Request::is('usulan/*')==1) mm-active @endif">
               <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="fadeIn animated bx bx-file"></i>
                 </div>
-                <div class="menu-title">Usulan</div>
+                <div class="menu-title">Usulan {{count_unit_verifikasi()}}</div>
               </a>
               <ul>
                 @foreach(get_usulan() as $usl)
@@ -18,6 +19,15 @@
                 @endforeach
               </ul>
             </li>
+            @if(count_unit_verifikasi()>0)
+            <li class="@if(Request::is('usulan/*')==1 || Request::is('usulan/*')==1) mm-active @endif">
+              <a href="{{url('/usulanverifikasi')}}" aria-expanded="true">
+                <div class="parent-icon"><i class="fadeIn animated bx bx-file"></i>
+                </div>
+                <div class="menu-title">Verifikasi Usulan</div>
+              </a>
+            </li>
+            @endif
             <li class="@if(Request::is('master/*')==1) mm-active @endif">
               <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="fadeIn animated bx bx-collection"></i>

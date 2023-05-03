@@ -24,6 +24,10 @@ Route::group(['middleware' => 'keycloak-web'],function(){
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+    Route::group(['prefix' => 'usulanverifikasi'],function(){
+        Route::get('/', [UsulanController::class, 'index_verifikasi']);
+        Route::get('/get_data', [UsulanController::class, 'get_data_verifikasi']);
+    });
     Route::group(['prefix' => 'usulan'],function(){
         Route::get('/{id}', [UsulanController::class, 'index']);
         Route::get('/{id}/get_data', [UsulanController::class, 'get_data']);

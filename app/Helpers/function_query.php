@@ -58,9 +58,33 @@
       $data=App\Models\Mpusatkendali::orderBy('kode_pk','Asc')->get();
       return $data;
    }
+   function get_name($nik){
+      error_reporting(0);
+      $json = file_get_contents('https://portal.krakatausteel.com/eos/api/structdisp/'.$nik);
+      $item = json_decode($json,true);
+      
+      $unit=$item;
+      $personnel_no=$unit['personnel_no'];
+      $name=$unit['name'];
+      return $name;
+
+  }
    function kode_unit($Objectname){
       $data=App\Models\Munit::where('nama_unit',$Objectname)->first();
       return $data->kode_unit;
+   }
+   function get_unit_verifikasi(){
+      $data=App\Models\Munit::where('nik',Auth::user()->employeeNumber)->get();
+      $data  = array_column(
+         App\Models\Munit::where('nik',Auth::user()->employeeNumber)
+         ->get()
+         ->toArray(),'kode_unit'
+      );
+      return $data;
+   }
+   function count_unit_verifikasi(){
+      $data=App\Models\Munit::where('nik',Auth::user()->employeeNumber)->count();
+      return $data;
    }
    function auth_employe(){
       $data=App\Models\Employe::where('nik',Auth::user()->employeeNumber)->first();
@@ -83,8 +107,12 @@
       return $data['name'];
    }
    function auth_role(){
-      $data=App\Models\User::where('nik',Auth::user()->employeeNumber)->first();
+      $data=App\Models\Employe::where('nik',Auth::user()->employeeNumber)->first();
       return $data['role_id'];
+   }
+   function role(){
+      $data=App\Models\Mrole::where('id',auth_role())->first();
+      return $data['role'];
    }
    function auth_admin(){
       $data=App\Models\User::where('nik',Auth::user()->employeeNumber)->first();

@@ -24,6 +24,12 @@ class UsulanController extends Controller
        
         return view('usulan.index',compact('template','data','ide'));
     }
+    public function index_verifikasi(request $request)
+    {
+        $template='top';
+        
+        return view('usulan.index_verifikasi',compact('template'));
+    }
     public function view(request $request,$id)
     {
         error_reporting(0);
@@ -66,7 +72,57 @@ class UsulanController extends Controller
     {
         error_reporting(0);
         $mst=Musulan::where('id',$id)->first();
-        $data = Viewusulan::where('kode_group',$mst->kode_group)->orderBy('id','Asc')->get();
+        $query = Viewusulan::query();
+        $data = $query->where('nik_keyperson',Auth::user()->employeeNumber);
+        $data = $query->where('kode_group',$mst->kode_group)->orderBy('id','Asc')->get();
+
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('publish', function ($row) {
+                if($row->status_id==0){
+                    return '<span class="btn btn-info btn-sm" onclick="publish_data('.$row->id.')"><i class="bx bx-share"></i></span>';
+                }else{
+                    return '<span class="btn btn-default btn-sm" ><i class="bx bx-share"></i></span>';
+                }
+            })
+            ->addColumn('action', function ($row) {
+                $mst=Musulan::where('kode_group',$row->kode_group)->first();
+                if($row->status_id==0){
+                    $btn='
+                        <div class="btn-group" style="margin:0px">
+                            <span class="btn btn-secondary btn-sm" onclick="location.assign(`'.url('usulan').'/'.$mst->id.'/view?id='.coder($row->id).'`)"><i class="bx bx-pencil"></i></span>
+                            <span class="btn btn-danger btn-sm"  onclick="delete_data('.$row->id.')"><i class="bx bx-trash-alt"></i></span>
+                        </div>
+                    ';
+                }else{
+                    $btn='
+                        <div class="btn-group" style="margin:0px">
+                            <span class="btn btn-primary btn-sm" onclick="location.assign(`'.url('usulan').'/'.$mst->id.'/view?id='.coder($row->id).'`)"><i class="bx bx-search"></i></span>
+                        </div>
+                    ';
+                }
+                
+                return $btn;
+            })
+            
+            ->rawColumns(['action','publish'])
+            ->make(true);
+    }
+    public function get_data_verifikasi(request $request)
+    {
+        error_reporting(0);
+        $query = Viewusulan::query();
+        if($request->kode_group!=""){
+            $data = $query->where('kode_group',$request->kode_group);
+
+        }
+        if($request->status_id!=""){
+            $data = $query->where('status_id',$request->status_id);
+
+        }
+        $data = $query->where('status_id','>',0);
+        $data = $query->whereIn('kode_unit',get_unit_verifikasi());
+        $data = $query->orderBy('id','Asc')->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
