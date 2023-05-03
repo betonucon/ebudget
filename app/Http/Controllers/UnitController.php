@@ -59,11 +59,11 @@ class UnitController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn='
-                    <div class="btn-group" style="margin:0px">
-                        <span class="btn btn-white btn-sm" onclick="location.assign(`'.url('master/Usulan/create?id='.$row->id).'`)">X</span>
-                        <span class="btn btn-white btn-sm"  onclick="delete_data('.$row['id'].')">S</span>
-                    </div>
-                ';
+                        <div class="btn-group" style="margin:0px">
+                            <span class="btn btn-secondary btn-sm" onclick="tambah(`'.$row->id.'`)"><i class="bx bx-pencil"></i></span>
+                            <span class="btn btn-danger btn-sm"  onclick="delete_data('.$row->id.')"><i class="bx bx-trash-alt"></i></span>
+                        </div>
+                    ';
                 return $btn;
             })
             
@@ -80,10 +80,22 @@ class UnitController extends Controller
         error_reporting(0);
         $rules = [];
         $messages = [];
-        
-        $rules['Usulan']= 'required';
-        $messages['Usulan.required']= 'Lengkapi kolom Usulan';
-       
+        if($request->id==0){
+            $rules['kode_unit']= 'required';
+            $messages['kode_unit.required']= 'Lengkapi kolom kode unit';
+
+            $rules['nama_unit']= 'required';
+            $messages['nama_unit.required']= 'Lengkapi kolom nama unit';
+        }
+        $rules['unit_id']= 'required';
+        $messages['unit_id.required']= 'Lengkapi kolom Kategori unit';
+        $rules['singkatan']= 'required';
+        $messages['singkatan.required']= 'Lengkapi kolom singkatan unit';
+        $rules['nik']= 'required';
+        $messages['nik.required']= 'Lengkapi kolom NIK Atasan';
+
+        $rules['name_mgr']= 'required';
+        $messages['name_mgr.required']= 'Lengkapi kolom Nama Atasan';
         $validator = Validator::make($request->all(), $rules, $messages);
         $val=$validator->Errors();
 
@@ -100,16 +112,26 @@ class UnitController extends Controller
         }else{
             if($request->id==0){
                 
-                $data=Usulan::create([
-                    'Usulan'=>$request->Usulan,
-                    'aktif'=>1,
+                $data=Munit::UpdateOrcreate([
+                    'kode_unit'=>$request->kode_unit,
+                ],[
+                    'nama_unit'=>$request->nama_unit,
+                    'name_mgr'=>$request->name_mgr,
+                    'unit_id'=>$request->unit_id,
+                    'singkatan'=>$request->singkatan,
+                    'nik'=>$request->nik,
                 ]);
 
                 echo'@ok';
                 
             }else{
-                $data=Usulan::where('id',$request->id)->update([
-                    'Usulan'=>$request->Usulan,
+                $data=Munit::UpdateOrcreate([
+                    'id'=>$request->id,
+                ],[
+                    'name_mgr'=>$request->name_mgr,
+                    'nik'=>$request->nik,
+                    'unit_id'=>$request->unit_id,
+                    'singkatan'=>$request->singkatan,
                 ]);
 
                 echo'@ok';

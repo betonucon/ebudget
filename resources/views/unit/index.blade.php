@@ -12,7 +12,7 @@
                         headerOffset: $('#header').height()
                     },
                     responsive: true,
-                    ajax:"{{ url('unit/get_data')}}",
+                    ajax:"{{ url('master/unit/get_data')}}",
 					columns: [
                         { data: 'id', render: function (data, type, row, meta) 
 							{
@@ -21,7 +21,10 @@
 						},
 						{ data: 'kode_unit' },
 						{ data: 'nama_unit' },
-						{ data: 'action' },
+						{ data: 'singkatan' },
+						{ data: 'nik' },
+						{ data: 'name_mgr' },
+						{ data: 'action', className: "text-center" },
 						
 					],
 					language: {
@@ -71,8 +74,6 @@
 				<h6 class="mb-0 text-uppercase">&nbsp;</h6>
 				<div class="btn-group">
 					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white" onclick="tambah(0)"><i class="bi bi-plus-circle"></i> Tambah</span>
-					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white">Button</span>
-					<span style="border-color: #fff;" class="btn btn-sm btn-secondary  text-white">Button</span>
 				</div>
 				<div class="card">
 					<div class="card-body">
@@ -81,10 +82,13 @@
 							<table id="data-table-fixed-header" class="table table-striped table-bordered dataTable" style="width: 100%;" role="grid" aria-describedby="example_info">
 								<thead>
 									<tr role="row">
-										<th class="sorting_asc">No</th>
-										<th class="sorting_asc">Kode Unit</th>
+										<th class="sorting_asc" width="5%">No</th>
+										<th class="sorting_asc" width="10%">Kode Unit</th>
 										<th class="sorting_asc">Nama Unit</th>
-										<th class="sorting_asc">Act</th>
+										<th class="sorting_asc" width="18%">Singkatan</th>
+										<th class="sorting_asc" width="10%">NIK Pimpinan</th>
+										<th class="sorting_asc" width="20%">Nama Pimpinan</th>
+										<th class="sorting_asc" width="5%">Act</th>
 									</tr>
 								</thead>
 								
@@ -121,7 +125,7 @@
 		function tambah(id){
 			$('#modal-tambah .modal-title').text('Tambah ');
 			$('#modal-tambah').modal('show');
-			$('#tampil-form').load("{{url('unit/modal')}}?id="+id);
+			$('#tampil-form').load("{{url('master/unit/modal')}}?id="+id);
 		}
 
 		$('#btn-save').on('click', () => {
@@ -129,7 +133,7 @@
             var form=document.getElementById('mydata');
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('unit/save') }}",
+                    url: "{{ url('master/unit/save') }}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

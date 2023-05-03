@@ -32,7 +32,7 @@ Route::group(['middleware' => 'keycloak-web'],function(){
         Route::get('/{id}/publish', [UsulanController::class, 'publish_data']);
         Route::post('/{id}/save', [UsulanController::class, 'save']);
     });
-    Route::group(['prefix' => 'unit'],function(){
+    Route::group(['prefix' => 'master/unit'],function(){
         Route::get('', [UnitController::class, 'index']);
         Route::get('/get_data', [UnitController::class, 'get_data']);
         Route::get('/get_nik', [UnitController::class, 'get_nik']);

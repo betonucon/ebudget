@@ -27,6 +27,7 @@
               <ul>
                 
                     <li> <a href="{{url('master/pusatkendali')}}"><i class="bi bi-circle"></i>Pusat Kendali</a></li>
+                    <li> <a href="{{url('master/unit')}}"><i class="bi bi-circle"></i>Unit Kerja</a></li>
                     <li> <a href="{{url('master/group')}}"><i class="bi bi-circle"></i>Group</a></li>
                     <li> <a href="{{url('master/periode')}}"><i class="bi bi-circle"></i>Periode</a></li>
                     <li> <a href="{{url('master/anggaran')}}"><i class="bi bi-circle"></i>Anggaran</a></li>
