@@ -24,6 +24,7 @@
 						{ data: 'tahun', className: "text-center" },
 						{ data: 'total_harga', className: "text-right" },
 						{ data: 'status', className: "text-center" },
+						{ data: 'publish', className: "text-center" },
 						{ data: 'action', className: "text-center" },
 						
 					],
@@ -88,6 +89,7 @@
 										<th class="sorting_asc" width="7%">Tahun</th>
 										<th class="sorting_asc" width="12%">Total</th>
 										<th class="sorting_asc" width="12%">Status</th>
+										<th class="sorting_asc" width="3%"></th>
 										<th class="sorting_asc" width="5%">Action</th>
 									</tr>
 								</thead>
@@ -154,5 +156,74 @@
                     }
                 });
         });
+
+		function delete_data(id){
+           
+		   swal({
+			   title: "Yakin menghapus data ini ?",
+			   text: "data akan hilang dari daftar ini",
+			   type: "warning",
+			   icon: "error",
+			   showCancelButton: true,
+			   align:"center",
+			   confirmButtonClass: "btn-danger",
+			   confirmButtonText: "Yes, delete it!",
+			   closeOnConfirm: false
+		   }).then((willDelete) => {
+			   if (willDelete) {
+					   $.ajax({
+						   type: 'GET',
+						   url: "{{url('usulan/'.$ide.'/delete')}}",
+						   data: "id="+id,
+						   success: function(msg){
+							   swal("Success! berhasil terhapus!", {
+								   icon: "success",
+							   });
+							   var tables=$('#data-table-fixed-header').DataTable();
+          							tables.ajax.url("{{ url('usulan/'.$ide.'/get_data')}}").load();
+						   }
+					   });
+				   
+				   
+			   } else {
+				   
+			   }
+		   });
+		   
+	    } 
+		function publish_data(id){
+           
+		   swal({
+			   title: "Yakin publish data ini ?",
+			   text: "",
+			   type: "warning",
+			   icon: "info",
+			   showCancelButton: true,
+			   align:"center",
+			   confirmButtonClass: "btn-danger",
+			   confirmButtonText: "Yes, delete it!",
+			   closeOnConfirm: false
+		   }).then((willDelete) => {
+			   if (willDelete) {
+					   $.ajax({
+						   type: 'GET',
+						   url: "{{url('usulan/'.$ide.'/publish')}}",
+						   data: "id="+id,
+						   success: function(msg){
+							   swal("Success! berhasil diproses!", {
+								   icon: "success",
+							   });
+							   var tables=$('#data-table-fixed-header').DataTable();
+          							tables.ajax.url("{{ url('usulan/'.$ide.'/get_data')}}").load();
+						   }
+					   });
+				   
+				   
+			   } else {
+				   
+			   }
+		   });
+		   
+	    } 
 	</script>
 @endpush

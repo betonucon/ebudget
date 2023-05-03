@@ -20,6 +20,10 @@
       $data=App\Models\Matauang::orderBy('id','Asc')->get();
       return $data;
    }
+   function get_log($id){
+      $data=App\Models\Viewlogusulan::where('t_usulan_id',$id)->orderBy('id','Asc')->get();
+      return $data;
+   }
    function get_anggaran($kode_group){
       $data=App\Models\Manggaran::where('kode_group',$kode_group)->orderBy('id','Asc')->get();
       return $data;

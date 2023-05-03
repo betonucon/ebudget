@@ -11,6 +11,7 @@ use App\Models\Usulan;
 use App\Models\Tusulan;
 use App\Models\Viewusulan;
 use App\Models\Tdetailusulan;
+use App\Models\Logusulan;
 
 class UsulanController extends Controller
 {
@@ -40,14 +41,24 @@ class UsulanController extends Controller
             $disabled='disabled';
           
         }
-        // dd($data);
-        if(in_array($usulan_id,array(1,2))){
-            return view('usulan.view',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
-        }
-        elseif(in_array($usulan_id,array(5,6))){
-            return view('usulan.view_2',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+        if($data->status_id>0){
+            if(in_array($usulan_id,array(1,2))){
+                return view('usulan.view_detail',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+            }
+            elseif(in_array($usulan_id,array(5,6))){
+                return view('usulan.view_detail_2',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+            }else{
+                return view('usulan.view_detail_3',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+            }
         }else{
-            return view('usulan.view_3',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+            if(in_array($usulan_id,array(1,2))){
+                return view('usulan.view',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+            }
+            elseif(in_array($usulan_id,array(5,6))){
+                return view('usulan.view_2',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+            }else{
+                return view('usulan.view_3',compact('template','data','disabled','usulan_id','kode_usulan','mst','ide'));
+            }
         }
         
     }
@@ -59,23 +70,50 @@ class UsulanController extends Controller
 
         return Datatables::of($data)
             ->addIndexColumn()
+            ->addColumn('publish', function ($row) {
+                if($row->status_id==0){
+                    return '<span class="btn btn-info btn-sm" onclick="publish_data('.$row->id.')"><i class="bx bx-share"></i></span>';
+                }else{
+                    return '<span class="btn btn-default btn-sm" ><i class="bx bx-share"></i></span>';
+                }
+            })
             ->addColumn('action', function ($row) {
                 $mst=Musulan::where('kode_group',$row->kode_group)->first();
-                $btn='
-                    <div class="btn-group" style="margin:0px">
-                        <span class="btn btn-secondary btn-sm" onclick="location.assign(`'.url('usulan').'/'.$mst->id.'/view?id='.coder($row->id).'`)"><i class="bx bx-pencil"></i></span>
-                        <span class="btn btn-danger btn-sm"  onclick="delete_data(`'.coder($row->id).'`)"><i class="bx bx-trash-alt"></i></span>
-                    </div>
-                ';
+                if($row->status_id==0){
+                    $btn='
+                        <div class="btn-group" style="margin:0px">
+                            <span class="btn btn-secondary btn-sm" onclick="location.assign(`'.url('usulan').'/'.$mst->id.'/view?id='.coder($row->id).'`)"><i class="bx bx-pencil"></i></span>
+                            <span class="btn btn-danger btn-sm"  onclick="delete_data('.$row->id.')"><i class="bx bx-trash-alt"></i></span>
+                        </div>
+                    ';
+                }else{
+                    $btn='
+                        <div class="btn-group" style="margin:0px">
+                            <span class="btn btn-primary btn-sm" onclick="location.assign(`'.url('usulan').'/'.$mst->id.'/view?id='.coder($row->id).'`)"><i class="bx bx-search"></i></span>
+                        </div>
+                    ';
+                }
+                
                 return $btn;
             })
             
-            ->rawColumns(['action'])
+            ->rawColumns(['action','publish'])
             ->make(true);
     }
 
     public function delete_data(request $request){
-        $data = Usulan::where('id',$request->id)->update(['aktif'=>0]);
+        $data = Tusulan::where('id',$request->id)->update(['aktif'=>0]);
+    }
+    public function publish_data(request $request){
+        $mst = Tusulan::where('id',$request->id)->first();
+        $data = Tusulan::where('id',$request->id)->update(['status_id'=>1]);
+        $log=Logusulan::create([
+            'keterangan'=>'Publish '.$mst->no_dokumen.' dengan kode form '.$mst->kode_form,
+            't_usulan_id'=>$mst->id,
+            'status_id'=>1,
+            'nik'=>Auth::user()->employeeNumber,
+            'created_at'=>date('Y-m-d H:i:s'),
+        ]);
     }
 
    
@@ -102,13 +140,14 @@ class UsulanController extends Controller
                 $messages['spesifikasi.required']= 'Lengkapi kolom spesifikasi';
                 
                 $rules['harga']= 'required';
-                $messages['harga.required']= 'Lengkapi kolom harga';
+                $messages['harga.required']= 'Lengkapi kolom harga ';
                 
                 $rules['m_matauang_id']= 'required';
                 $messages['m_matauang_id.required']= 'Lengkapi kolom mata uang';
-                
+                // $rules['hargass']= 'required';
+                // $messages['hargass.required']= 'Lengkapi kolom harga '.$count;
                 $rules['tujuan_id']= 'required';
-                $messages['tujuan_id.required']= 'Lengkapi kolom tujun=an';
+                $messages['tujuan_id.required']= 'Lengkapi kolom tujuan';
 
                 if($count==0){
                     $rules['bulan']= 'required';
@@ -135,8 +174,8 @@ class UsulanController extends Controller
                 $messages['tujuan_id.required']= 'Lengkapi kolom tujun=an';
 
                 if($count==0){
-                    $rules['bulan']= 'required';
-                    $messages['bulan.required']= 'Pilih periode';
+                    $rules['bulandd']= 'required';
+                    $messages['bulandd.required']= 'Pilih periode '.$count;
                 }
 
 
@@ -168,14 +207,16 @@ class UsulanController extends Controller
                             $bb=$request->bulan[$x];
                             if($request->nillai[$bb]=="" || $request->nillai[$bb]==0){
                                 $jum+=0;
+                                
                             }else{
                                 $jum+=1;
+                              
                             }
-                            echo $request->nillai[$bb].' -'.$request->bulan[$x].'<br>';
+                           
                         }
                         if($count!=$jum){
                             $rules['value']= 'required';
-                            $messages['value.required']= 'Isi nilai pada kolom yang dicentang'.$count.'-'.$jum;
+                            $messages['value.required']= 'Isi '.$count.' '.$jum.' nilai pada kolom yang dicentang';
                         }
                         
                     }
@@ -229,13 +270,15 @@ class UsulanController extends Controller
                             'tahun'=>date('Y'),
                             'bulan'=>date('m'),
                             'aktif'=>1,
-                            'status_id'=>1,
+                            'status_id'=>0,
                         ]);
+                        
 
                         for($x=0;$x<$count;$x++){
                             $detail=Tdetailusulan::UpdateOrcreate([
                                 't_usulan_id'=>$data->id,
                                 'bulan'=>$request->bulan[$x],
+                                'value'=>1,
                                 'tahun'=>date('Y'),
                             ],[
                                 'sts'=>0,
@@ -260,7 +303,7 @@ class UsulanController extends Controller
                             'tahun'=>date('Y'),
                             'bulan'=>date('m'),
                             'aktif'=>1,
-                            'status_id'=>1,
+                            'status_id'=>0,
                         ]);
                         if($request->periode_nilai==1){
                             for($x=0;$x<$count;$x++){
@@ -300,7 +343,7 @@ class UsulanController extends Controller
                             'tahun'=>date('Y'),
                             'bulan'=>date('m'),
                             'aktif'=>1,
-                            'status_id'=>1,
+                            'status_id'=>0,
                         ]);
                         for($x=0;$x<$count;$x++){
                             $detail=Tdetailusulan::UpdateOrcreate([
@@ -313,42 +356,47 @@ class UsulanController extends Controller
                         }
                         echo'@ok';
                     }
+                    $log=Logusulan::create([
+                        'keterangan'=>'Create '.$no_dokumen.' dengan kode form '.$request->kode_form,
+                        't_usulan_id'=>$data->id,
+                        'status_id'=>0,
+                        'nik'=>Auth::user()->employeeNumber,
+                        'created_at'=>date('Y-m-d H:i:s'),
+                    ]);
                 }
                 
                 
             }else{
+                $doc=Tusulan::where('id',$request->id)->first();
                 if(in_array($usulan_id,array(1,2))){
-                    $data=Tusulan::create([
-                        'no_dokumen'=>$no_dokumen,
-                        'kode_group'=>$mst->kode_group,
-                        'm_usulan_id'=>$usulan_id,
-                        'kode_form'=>$request->kode_form,
+                   
+                    $data=Tusulan::UpdateOrcreate([
+                        'id'=>$request->id,
+                    ],[
                         'nama_barang'=>$request->nama_barang,
-                        'cost_center'=>auth_employe()->cost_ctr,
-                        'kode_unit'=>auth_employe()->kode_unit,
+                        
                         'qty'=>$request->qty,
                         'qty_order'=>$request->qty_order,
                         'spesifikasi'=>$request->spesifikasi,
-                        'nik_keyperson'=>Auth::user()->employeeNumber,
                         'harga'=>$request->harga,
                         'm_matauang_id'=>$request->m_matauang_id,
                         'm_tujuan_id'=>$request->tujuan_id,
                         'harga'=>$request->harga,
-                        'tahun'=>date('Y'),
-                        'bulan'=>date('m'),
                         'aktif'=>1,
                     ]);
 
                     for($x=0;$x<$count;$x++){
-                        $delete=Tdetailusulan::where('t_usulan_id',$request->id)->delete();
                         $detail=Tdetailusulan::UpdateOrcreate([
-                            't_usulan_id'=>$data->id,
+                            't_usulan_id'=>$request->id,
                             'bulan'=>$request->bulan[$x],
                             'tahun'=>date('Y'),
                         ],[
                             'sts'=>0,
+                            'value'=>1,
                         ]);
                     }
+                    $delete=Tdetailusulan::where('t_usulan_id',$request->id)->whereNotin('bulan',$request->bulan)->delete();
+                        
                     echo'@ok';
                 }
                 if(in_array($usulan_id,array(3,4,7))){
@@ -361,7 +409,6 @@ class UsulanController extends Controller
                         'm_matauang_id'=>$request->m_matauang_id,
                     ]);
                     if($request->periode_nilai==1){
-                        $delete=Tdetailusulan::where('t_usulan_id',$request->id)->delete();
                         for($x=0;$x<$count;$x++){
                             $bb=$request->bulan[$x];
                             $detail=Tdetailusulan::UpdateOrcreate([
@@ -372,6 +419,7 @@ class UsulanController extends Controller
                                 'value'=>$request->nillai[$bb],
                             ]);
                         }
+                        $delete=Tdetailusulan::where('t_usulan_id',$request->id)->whereNotin('bulan',$request->bulan)->delete();
                     }else{
                         $delete=Tdetailusulan::where('t_usulan_id',$request->id)->delete();
                         $data=Tusulan::UpdateOrcreate([
@@ -383,35 +431,36 @@ class UsulanController extends Controller
                     echo'@ok';
                 }
                 if(in_array($usulan_id,array(5,6))){
-                    $data=Tusulan::create([
-                        'no_dokumen'=>$no_dokumen,
-                        'kode_group'=>$mst->kode_group,
-                        'm_usulan_id'=>$usulan_id,
-                        'kode_form'=>$request->kode_form,
+                    $data=Tusulan::UpdateOrcreate([
+                        'id'=>$request->id,
+                    ],[
                         'nilai_pekerjaan'=>$request->nilai_pekerjaan,
                         'pekerjaan'=>$request->pekerjaan,
-                        'cost_center'=>auth_employe()->cost_ctr,
-                        'kode_unit'=>auth_employe()->kode_unit,
+                        'm_tujuan_id'=>$request->tujuan_id,
                         
-                        'm_tujuan_id'=>$request->m_tujuan_id,
-                        'nik_keyperson'=>Auth::user()->employeeNumber,
                         'm_matauang_id'=>$request->m_matauang_id,
-                        'tahun'=>date('Y'),
-                        'bulan'=>date('m'),
-                        'aktif'=>1,
                     ]);
                     for($x=0;$x<$count;$x++){
-                        $delete=Tdetailusulan::where('t_usulan_id',$request->id)->delete();
                         $detail=Tdetailusulan::UpdateOrcreate([
-                            't_usulan_id'=>$data->id,
+                            't_usulan_id'=>$request->id,
                             'bulan'=>$request->bulan[$x],
                             'tahun'=>date('Y'),
                         ],[
                             'sts'=>0,
+                            'value'=>1,
                         ]);
                     }
+                    $delete=Tdetailusulan::where('t_usulan_id',$request->id)->whereNotin('bulan',$request->bulan)->delete();
+                        
                     echo'@ok';
                 }
+                $log=Logusulan::create([
+                    'keterangan'=>'Update '.$doc->no_dokumen.' dengan kode form '.$request->kode_form,
+                    't_usulan_id'=>$request->id,
+                    'status_id'=>0,
+                    'nik'=>Auth::user()->employeeNumber,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                ]);
             }
         }
     }

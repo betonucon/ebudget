@@ -149,7 +149,7 @@
 														<input type="checkbox" id="checkbox{{$x}}"  {{$checked}} name="bulan[]" value="{{ubah_bulan($x)}}"></label>
 														<div class="col-sm-4">
 															<div class="input-group input-group-sm"> 
-																<input type="number" id="value{{$x}}" class="form-control" name="nillai[{{$x}}]"  placeholder="Enter......">
+																<input type="number" id="value{{$x}}" class="form-control" name="nillai[{{ubah_bulan($x)}}]"  value="{{$value}}" placeholder="Enter......">
 															</div>
 														</div>
 													</div>
@@ -177,7 +177,18 @@
 									</div>
 								</div>
 								<div class="tab-pane fade show" id="dangerprofile" role="tabpanel">
-									sdsds
+									@foreach(get_log($ide) as $riw)
+										<div class="alert border-0 bg-light-dark alert-dismissible fade show py-2">
+											<div class="d-flex align-items-center">
+												<div class="fs-3 text-dark"><i class="bi bi-bell-fill"></i>
+											</div>
+												<div class="ms-3">
+													<div class="text-danger">{{$riw->created_at}} By {{$riw->name}}  ({{$riw->role}})</div>
+													<div class="text-dark">{{$riw->keterangan}}</div>
+												</div>
+											</div>
+										</div>
+									@endforeach
 								</div>
 							</div>
 					
@@ -234,6 +245,9 @@
 @endsection
 @push('ajax')
 	<script>
+		$('#btn-kembali').on('click', () => {
+			location.assign("{{url('usulan')}}/{{ $usulan_id}}")
+		});
 		@if($ide>0)
 			@if($data->periode_nilai==1)
 				$('#tampil-tahunan').hide();

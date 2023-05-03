@@ -95,6 +95,10 @@ function posisi($nik){
     $unit=$item;
     return $unit;
 }
+function uang($uang){
+   return number_format($uang,0);
+
+}
 function get_bos($nik){
     error_reporting(0);
     $json = file_get_contents('https://portal.krakatausteel.com/eos/api/structdisp/'.$nik.'/bosses');

@@ -51,7 +51,7 @@
 										<div class="col-6">
 											<label class="form-label">Nomor Dokumen</label>
 											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control" name="no_dokumen" value="{{$data->no_dokumen}}">
+												<input type="text" class="form-control" disabled name="no_dokumen" value="{{$data->no_dokumen}}">
 											</div>
 											
 										</div>
@@ -102,7 +102,7 @@
 										<div class="col-4">
 											<label class="form-label">Harga</label>
 											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="harga"  value="{{$data->nama_barang}}" placeholder="Enter......">
+												<input type="number" class="form-control"  name="harga"  value="{{$data->harga}}" placeholder="Enter......">
 											</div>
 										</div>
 										<div class="col-4">
@@ -123,7 +123,7 @@
 												<select name="tujuan_id"     class="form-control form-control-sm mb-3">  
 													<option value="">Pilih-----</option>
 													@foreach(get_tujuan() as $pus)
-														<option value="{{$pus->id}}" @if($data->tujuan_id==$pus->id) selected @endif >{{$pus->tujuan}}</option>
+														<option value="{{$pus->id}}" @if($data->m_tujuan_id==$pus->id) selected @endif >{{$pus->tujuan}}</option>
 													@endforeach
 												</select>
 											</div>
@@ -133,8 +133,15 @@
 							
 										<div class="row">
 											@for($x=1;$x<13;$x++)
+											<?php
+												if(periode_value($data->id,ubah_bulan($x),1)>0){
+													$checked="checked";
+												}else{
+													$checked="";
+												}
+											?>
 											<div class="col-3" style="background:#f1f1e2;margin: 3px;">
-												<input type="checkbox" name="bulan[]" value="{{ubah_bulan($x)}}">&nbsp;{{bulan(ubah_bulan($x))}}
+												<input type="checkbox" name="bulan[]" {{$checked}} value="{{ubah_bulan($x)}}">&nbsp;{{bulan(ubah_bulan($x))}}
 											</div>
 											@endfor
 										</div>
@@ -149,7 +156,18 @@
 									</div>
 								</div>
 								<div class="tab-pane fade show" id="dangerprofile" role="tabpanel">
-									sdsds
+									@foreach(get_log($ide) as $riw)
+									<div class="alert border-0 bg-light-dark alert-dismissible fade show py-2">
+										<div class="d-flex align-items-center">
+											<div class="fs-3 text-dark"><i class="bi bi-bell-fill"></i>
+										</div>
+											<div class="ms-3">
+												<div class="text-danger">{{$riw->created_at}} By {{$riw->name}}  ({{$riw->role}})</div>
+												<div class="text-dark">{{$riw->keterangan}}</div>
+											</div>
+										</div>
+									</div>
+									@endforeach
 								</div>
 							</div>
 					
@@ -206,7 +224,9 @@
 @endsection
 @push('ajax')
 	<script>
-		
+		$('#btn-kembali').on('click', () => {
+			location.assign("{{url('usulan')}}/{{ $usulan_id}}")
+		});
 		function show_form(){
 			$('#modal-form').modal('show');
 		}

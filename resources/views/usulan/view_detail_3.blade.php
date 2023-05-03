@@ -4,7 +4,7 @@
             <main class="page-content">
 				<!--breadcrumb-->
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Form Usulan </div>
+					<div class="breadcrumb-title pe-3">Veiw Usulan </div>
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
@@ -46,93 +46,40 @@
 							</ul>
 							<div class="tab-content py-3" style="padding: 1%; background: #f3f3ff;">
 								<div class="tab-pane fade show active" id="dangerhome" role="tabpanel">
-									@if($ide>0)
-									<div class="row">
-										<div class="col-6">
-											<label class="form-label">Nomor Dokumen</label>
-											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control" name="no_dokumen" value="{{$data->no_dokumen}}">
-											</div>
+									<table class="table table-bordered mb-0">
+										<tbody>
+											<tr>
+												<th scope="row" width="15%">No Dokumen</th>
+												<td>{{$data->no_dokumen}}</td>
+											</tr>
+											<tr>
+												<th scope="row" width="15%">Cost Center</th>
+												<td>{{$data->cost_center}}</td>
+											</tr>
+											<tr>
+												<th scope="row" width="15%">Unit Kerja</th>
+												<td>{{$data->nama_unit}}</td>
+											</tr>
+											<tr>
+												<th scope="row">Jenis Anggaran</th>
+												<td><b>{{$data->kode_form}}</b> {{$data->jenis_anggaran}}</td>
+											</tr>
+											<tr>
+												<th scope="row">Aktifitas</th>
+												<td>{{$data->aktifitas}}</td>
+											</tr>
 											
-										</div>
-									</div>
-									@endif
-									<div class="row">
-										<div class="col-3">
-											<label class="form-label">Id Form</label>
-											<div class="input-group input-group-sm"> 
-												<span class="input-group-text" id="basic-addon1" onclick="show_form()"><i class="fadeIn animated bx bx-search-alt"></i></span>
-												<input type="text" class="form-control" readonly name="kode_form"  value="{{$data->kode_form}}" id="kode_form" placeholder="Enter......">
-											</div>
-										</div>
-										<div class="col-9">
-											<label class="form-label">Jenis Anggaran</label>
-											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control" readonly name="jenis_anggaran"  value="{{$data->jenis_anggaran}}" id="jenis_anggaran" placeholder="Enter......">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-9">
-											<label class="form-label">Deskripsi Pekerjaan</label>
-											<div class="input-group input-group-sm"> 
-												<input type="text" class="form-control"  name="pekerjaan"  value="{{$data->pekerjaan}}"  placeholder="Enter......">
-											</div>
-										</div>
-										<div class="col-3">
-											<label class="form-label">Nilai Pekerjaan</label>
-											<div class="input-group input-group-sm"> 
-												<input type="number" class="form-control"  name="nilai_pekerjaan"  value="{{$data->nilai_pekerjaan}}"  placeholder="Enter......">
-											</div>
-										</div>
-										
-										
-									</div>
-									<div class="row">
-										<div class="col-4">
-											<label class="form-label">Mata Uang</label>
-											<div class="input-group input-group-sm"> 
-												<select name="m_matauang_id"     class="form-control form-control-sm mb-3">  
-													<option value="">Pilih-----</option>
-													@foreach(get_matauang() as $pus)
-														<option value="{{$pus->id}}" @if($data->m_matauang_id==$pus->id) selected @endif >{{$pus->mata_uang}}</option>
-													@endforeach
-												</select>
-												
-											</div>
-										</div>
-										<div class="col-4">
-											<label class="form-label">Tujuan</label>
-											<div class="input-group input-group-sm"> 
-												<select name="tujuan_id"     class="form-control form-control-sm mb-3">  
-													<option value="">Pilih-----</option>
-													@foreach(get_tujuan() as $pus)
-														<option value="{{$pus->id}}" @if($data->m_tujuan_id==$pus->id) selected @endif >{{$pus->tujuan}}</option>
-													@endforeach
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="card-body">
-							
-										<div class="row">
-											@for($x=1;$x<13;$x++)
-											<?php
-												if(periode_value($data->id,ubah_bulan($x),1)>0){
-													$checked="checked";
-												}else{
-													$checked="";
-												}
-											?>
-											<div class="col-3" style="background:#ededc1;margin: 3px;">
-												<input type="checkbox" {{$checked}} name="bulan[]" value="{{ubah_bulan($x)}}">&nbsp;{{bulan(ubah_bulan($x))}}
-											</div>
-											@endfor
-										</div>
-										
-							
-									
-									</div>
+											<tr>
+												<th scope="row">Mata Uang</th>
+												<td>{{$data->mata_uang}}</td>
+											</tr>
+											<tr>
+												<th scope="row">Total Harga</th>
+												<td>Rp.{{$data->total_harga}}</td>
+											</tr>
+											
+										</tbody>
+									</table>
 									<div class="card-footer">
 										<span id="btn-kembali" class="btn btn-danger"><i class="bi bi-save"></i> Kembali</span>
 										<span id="btn-save" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</span>
@@ -141,16 +88,16 @@
 								</div>
 								<div class="tab-pane fade show" id="dangerprofile" role="tabpanel">
 									@foreach(get_log($ide) as $riw)
-										<div class="alert border-0 bg-light-dark alert-dismissible fade show py-2">
-											<div class="d-flex align-items-center">
-												<div class="fs-3 text-dark"><i class="bi bi-bell-fill"></i>
-											</div>
-												<div class="ms-3">
-													<div class="text-danger">{{$riw->created_at}} By {{$riw->name}}  ({{$riw->role}})</div>
-													<div class="text-dark">{{$riw->keterangan}}</div>
-												</div>
+									<div class="alert border-0 bg-light-dark alert-dismissible fade show py-2">
+										<div class="d-flex align-items-center">
+											<div class="fs-3 text-dark"><i class="bi bi-bell-fill"></i>
+										</div>
+											<div class="ms-3">
+												<div class="text-danger">{{$riw->created_at}} By {{$riw->name}}  ({{$riw->role}})</div>
+												<div class="text-dark">{{$riw->keterangan}}</div>
 											</div>
 										</div>
+									</div>
 									@endforeach
 								</div>
 							</div>
@@ -236,12 +183,11 @@
                     success: function(msg){
                         var bat=msg.split('@');
                         if(bat[1]=='ok'){
-                            swal({
+							swal({
                               title: "Success! berhasil simpan!",
                               icon: "success",
                             });
-							location.assign("{{url('usulan')}}/{{ $usulan_id}}");
-                                
+                            location.assign("{{url('usulan')}}/{{ $usulan_id}}");
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
                             $('#notifikasi').html(msg);

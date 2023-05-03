@@ -28,6 +28,8 @@ Route::group(['middleware' => 'keycloak-web'],function(){
         Route::get('/{id}', [UsulanController::class, 'index']);
         Route::get('/{id}/get_data', [UsulanController::class, 'get_data']);
         Route::get('/{id}/view', [UsulanController::class, 'view']);
+        Route::get('/{id}/delete', [UsulanController::class, 'delete_data']);
+        Route::get('/{id}/publish', [UsulanController::class, 'publish_data']);
         Route::post('/{id}/save', [UsulanController::class, 'save']);
     });
     Route::group(['prefix' => 'unit'],function(){
