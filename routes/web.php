@@ -7,6 +7,7 @@ use App\Http\Controllers\PusatkendaliController;
 use App\Http\Controllers\PeriodeController; 
 use App\Http\Controllers\GroupController; 
 use App\Http\Controllers\AnggaranController; 
+use App\Http\Controllers\EmployeController; 
 use App\Http\Controllers\VariableController; 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,13 @@ Route::group(['middleware' => 'keycloak-web'],function(){
         Route::get('/get_nik', [UnitController::class, 'get_nik']);
         Route::get('/modal', [UnitController::class, 'modal']);
         Route::post('/save', [UnitController::class, 'save']);
+    });
+    Route::group(['prefix' => 'master/employe'],function(){
+        Route::get('', [EmployeController::class, 'index']);
+        Route::get('/get_data', [EmployeController::class, 'get_data']);
+        Route::get('/get_nik', [EmployeController::class, 'get_nik']);
+        Route::get('/modal', [EmployeController::class, 'modal']);
+        Route::post('/', [EmployeController::class, 'save']);
     });
     Route::group(['prefix' => 'variable'],function(){
         Route::get('', [VariableController::class, 'index']);
