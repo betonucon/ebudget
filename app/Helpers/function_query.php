@@ -74,7 +74,6 @@
       return $data->kode_unit;
    }
    function get_unit_verifikasi(){
-      $data=App\Models\Munit::where('nik',Auth::user()->employeeNumber)->get();
       $data  = array_column(
          App\Models\Munit::where('nik',Auth::user()->employeeNumber)
          ->get()
@@ -99,11 +98,11 @@
       return $data->nama_group;
    }
    function auth_nik(){
-      $data=App\Models\User::where('nik',Auth::user()->employeeNumber)->first();
+      $data=App\Models\Employe::where('nik',Auth::user()->employeeNumber)->first();
       return $data['nik'];
    }
    function auth_name(){
-      $data=App\Models\User::where('nik',Auth::user()->employeeNumber)->first();
+      $data=App\Models\Employe::where('nik',Auth::user()->employeeNumber)->first();
       return $data['name'];
    }
    function auth_role(){
@@ -114,8 +113,12 @@
       $data=App\Models\Mrole::where('id',auth_role())->first();
       return $data['role'];
    }
+   function get_role(){
+      $data=App\Models\Mrole::get();
+      return $data;
+   }
    function auth_admin(){
-      $data=App\Models\User::where('nik',Auth::user()->employeeNumber)->first();
+      $data=App\Models\Employe::where('nik',Auth::user()->employeeNumber)->first();
       return $data['admin'];
    }
 
