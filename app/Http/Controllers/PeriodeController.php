@@ -127,43 +127,17 @@ class PeriodeController extends Controller
             echo'</div></div>';
         }else{
            
-            if($request->id==0){
-                
+            
                 $cek=Mperiode::count();
-                if($cek>0){
-                    $data=Mperiode::create([
-                        'start_date'=>$request->start_date,
-                        'end_date'=>$request->end_date,
-                        'status_id'=>$request->status_id,
-                        'tahun'=>$request->tahun,
-                        'active'=>0,
-                        
-                    ]);
-
-                    echo'@ok';
-                }else{
-                
-                    $data=Mperiode::create([
-                        'start_date'=>$request->start_date,
-                        'end_date'=>$request->end_date,
-                        'status_id'=>$request->status_id,
-                        'tahun'=>$request->tahun,
-                        'active'=>1,
-                        
-                    ]);
-                    echo'@ok';
-                }
-                
-            }else{
-                $data=Mperiode::where('id',$request->id)->update([
-                    'start_date'=>$request->start_date,
-                    'status_id'=>$request->status_id,
-                    'end_date'=>$request->end_date,
+                $data=Mperiode::UpdateOrcreate([
                     'tahun'=>$request->tahun,
+                ],[
+                    'start_date'=>$request->start_date,
+                    'end_date'=>$request->end_date,
+                    'status_id'=>$request->status_id,
+                    
                 ]);
-
                 echo'@ok';
-            }
         }
     }
 }
