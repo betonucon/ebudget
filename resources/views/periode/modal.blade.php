@@ -20,7 +20,7 @@
         <div class="input-group form-control-sm mb-3"> 
             <select name="status_id"     class="form-control form-control-sm mb-3">  
                 <option value="">Pilih-----</option>
-                @foreach(get_status() as $pus)
+                @foreach(get_status_active() as $pus)
                     <option value="{{$pus->id}}" @if($data->status_id==$pus->id) selected @endif >{{$pus->status}}</option>
                 @endforeach
             </select>

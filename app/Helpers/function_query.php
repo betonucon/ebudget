@@ -8,6 +8,10 @@
       $data=App\Models\Mstatus::orderBy('id','Asc')->get();
       return $data;
    }
+   function get_status_active(){
+      $data=App\Models\Mstatus::whereIn('id',array(1,2))->orderBy('id','Asc')->get();
+      return $data;
+   }
    function get_group(){
       $data=App\Models\Mgroup::orderBy('kode_group','Asc')->get();
       return $data;
